@@ -1,0 +1,21 @@
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T21:13:33Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+
+BLOCKED: no usable pre-generated MedMCQA solver CSV was supplied.
+Expected a file containing question, gold_answer, and solvers columns.
+Set SKILL_MOE_SOLVER_CSV=/path/to/test_samples_with_keywords_and_solvers_seed0.csv
+The advertised upstream skill.zip URL returned HTTP 404 during Step 03.
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T21:17:54Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+
+BLOCKED: nvidia-smi is unavailable; this host is not verified as Cheaha GPU runtime.
