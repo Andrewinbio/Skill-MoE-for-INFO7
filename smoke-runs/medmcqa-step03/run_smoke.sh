@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -u
 
-# Run the unmodified upstream scoring path in an isolated directory. Set
-# SKILL_MOE_SOLVER_CSV to a pre-generated MedMCQA solver CSV before running.
+# Run the upstream scoring path on Cheaha in an isolated directory. Set
+# SKILL_MOE_SOLVER_CSV to the fixture or another MedMCQA solver CSV before
+# running.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$SCRIPT_DIR/../.." && pwd)}"
@@ -17,6 +18,7 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 printf 'Step 03 MedMCQA smoke test\n'
 printf 'timestamp: %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 printf 'project_root: %s\nrun_dir: %s\nmodel_cache: %s\n' "$PROJECT_ROOT" "$RUN_DIR" "$MODEL_CACHE"
+printf 'execution_target: cheaha\n'
 printf 'origin: '
 git -C "$PROJECT_ROOT" remote get-url origin 2>/dev/null || true
 printf 'upstream: '
@@ -30,6 +32,30 @@ if [[ -z "$SOLVER_CSV" || ! -f "$SOLVER_CSV" ]]; then
     exit 2
 fi
 
+export SKILL_MOE_BACKEND="${SKILL_MOE_BACKEND:-vllm}"
+export SKILL_MOE_MAX_NEW_TOKENS="${SKILL_MOE_MAX_NEW_TOKENS:-4096}"
+printf 'backend: %s\nmodel_override: %s\nmax_new_tokens: %s\n' \
+    "$SKILL_MOE_BACKEND" "upstream agent_map" "$SKILL_MOE_MAX_NEW_TOKENS"
+
+if ! python - <<'PY'
+required = ("pandas", "torch", "transformers", "vllm")
+missing = []
+for name in required:
+    try:
+        __import__(name)
+    except Exception:
+        missing.append(name)
+if missing:
+    print("missing Python packages: " + ", ".join(missing))
+    raise SystemExit(1)
+print("local Python dependencies are available")
+PY
+then
+    printf '\nBLOCKED: local upstream inference dependencies are unavailable.\n'
+    printf 'Install the upstream Cheaha dependencies before model inference.\n'
+    exit 3
+fi
+
 if ! command -v nvidia-smi >/dev/null 2>&1; then
     printf '\nBLOCKED: nvidia-smi is unavailable; this host is not verified as Cheaha GPU runtime.\n'
     exit 3
@@ -37,7 +63,8 @@ fi
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
 
 mkdir -p "$RUN_DIR/skills/MedMCQA" "$RUN_DIR/test_data"
-cp "$PROJECT_ROOT/agent.py" "$PROJECT_ROOT/utils.py" "$PROJECT_ROOT/expert_inference.py" "$PROJECT_ROOT/aggregate.py" "$RUN_DIR/"
+cp "$PROJECT_ROOT/agent.py" "$PROJECT_ROOT/utils.py" "$PROJECT_ROOT/local_backend.py" \
+    "$PROJECT_ROOT/expert_inference.py" "$PROJECT_ROOT/aggregate.py" "$RUN_DIR/"
 cp "$PROJECT_ROOT/test_data/MedMCQA_test.json" "$RUN_DIR/test_data/"
 
 # Make only the isolated copies honor the configurable cache. The original

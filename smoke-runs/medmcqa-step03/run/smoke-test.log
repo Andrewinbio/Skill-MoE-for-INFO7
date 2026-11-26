@@ -19,3 +19,138 @@ origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
 upstream: https://github.com/dinobby/Skill-MoE.git
 
 BLOCKED: nvidia-smi is unavailable; this host is not verified as Cheaha GPU runtime.
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T22:02:11Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+execution_target: local
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+missing Python packages: pandas, torch, vllm, transformers
+
+BLOCKED: local upstream inference dependencies are unavailable.
+Install the pinned requirements in a compatible environment before running model inference.
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T22:07:25Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+execution_target: local
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+missing Python packages: vllm
+
+BLOCKED: local upstream inference dependencies are unavailable.
+Install the pinned requirements in a compatible environment before running model inference.
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T22:09:16Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+execution_target: local
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+missing Python packages: vllm
+
+BLOCKED: local upstream inference dependencies are unavailable.
+The upstream vLLM backend must be installed in a compatible environment before model inference.
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T22:17:43Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+execution_target: local
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+backend: transformers
+model_override: Qwen/Qwen2.5-1.5B-Instruct
+max_new_tokens: 256
+local Python dependencies are available
+prepared_rows: 5
+solver_rows:
+  0: ['Qwen', 'Qwen', 'Qwen']
+  1: ['Qwen', 'Qwen', 'Qwen']
+  2: ['Qwen', 'Qwen', 'Qwen']
+  3: ['Qwen', 'Qwen', 'Qwen']
+  4: ['Qwen', 'Qwen', 'Qwen']
+
+COMMAND: python expert_inference.py --task MedMCQA --gpus 1 --seed 0
+`torch_dtype` is deprecated! Use `dtype` instead!
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T22:29:27Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+execution_target: local
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+backend: transformers
+model_override: Qwen/Qwen2.5-0.5B-Instruct
+max_new_tokens: 256
+/opt/miniconda3/envs/skill-moe-local/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+local Python dependencies are available
+prepared_rows: 5
+solver_rows:
+  0: ['Qwen', 'Qwen', 'Qwen']
+  1: ['Qwen', 'Qwen', 'Qwen']
+  2: ['Qwen', 'Qwen', 'Qwen']
+  3: ['Qwen', 'Qwen', 'Qwen']
+  4: ['Qwen', 'Qwen', 'Qwen']
+
+COMMAND: python expert_inference.py --task MedMCQA --gpus 1 --seed 0
+/opt/miniconda3/envs/skill-moe-local/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T22:39:58Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+execution_target: local
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+backend: transformers
+model_override: Qwen/Qwen2.5-0.5B-Instruct
+max_new_tokens: 256
+/opt/miniconda3/envs/skill-moe-local/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+local Python dependencies are available
+prepared_rows: 5
+solver_rows:
+  0: ['Qwen', 'Qwen', 'Qwen']
+  1: ['Qwen', 'Qwen', 'Qwen']
+  2: ['Qwen', 'Qwen', 'Qwen']
+  3: ['Qwen', 'Qwen', 'Qwen']
+  4: ['Qwen', 'Qwen', 'Qwen']
+
+COMMAND: python expert_inference.py --task MedMCQA --gpus 1 --seed 0
+/opt/miniconda3/envs/skill-moe-local/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+Running inference on 1 GPUS.
+getting responses from this model: Qwen
+Initial accuracy with the 3 experts:  0.0
+
+COMMAND: python aggregate.py --task MedMCQA --aggregator Qwen --gpus 1 --seed 0
+/opt/miniconda3/envs/skill-moe-local/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+Step 03 MedMCQA smoke test
+timestamp: 2026-11-26T23:04:34Z
+project_root: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7
+run_dir: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run
+model_cache: /Users/andre/Documents/UAB/Grad/Fall2026/NLP/Final Project/Skill-MoE-for-INFO7/smoke-runs/medmcqa-step03/run/model-cache
+execution_target: cheaha
+origin: https://github.com/Andrewinbio/Skill-MoE-for-INFO7.git
+upstream: https://github.com/dinobby/Skill-MoE.git
+backend: vllm
+model_override: upstream agent_map
+max_new_tokens: 4096
+missing Python packages: pandas, torch, transformers, vllm
+
+BLOCKED: local upstream inference dependencies are unavailable.
+Install the upstream Cheaha dependencies before model inference.

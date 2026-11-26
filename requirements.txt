@@ -8,3 +8,5 @@ backoff==2.2.1
 accelerate==1.0.1
 math_verify==0.5.2
 sentence_transformers==3.4.1
+tiktoken
+pydantic

@@ -7,8 +7,13 @@ import numpy as np
 from tqdm import tqdm
 from collections import Counter
 from typing import List, Dict
-from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer
+try:
+    from vllm import LLM, SamplingParams
+except ImportError:
+    LLM = None
+    SamplingParams = None
+from local_backend import generate_texts
 from utils import read_json, write_json, get_keywords, get_alphabet_choice, is_math_equiv, remove_boxed, last_boxed_only_string
 
 agent_map = {
@@ -126,6 +131,14 @@ class SkillEvaluator:
         return samples, agent_profile, train_acc
 
     def generate(self, prompts, temperature=0.7):
+        if LLM is None or os.environ.get("SKILL_MOE_BACKEND", "vllm") == "transformers":
+            return generate_texts(
+                self.llm,
+                self.tokenizer,
+                prompts,
+                self.agent_name,
+                temperature,
+            )
         messages = []    
 
         for p in prompts:

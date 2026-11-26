@@ -7,10 +7,10 @@ import numpy as np
 from tqdm import tqdm
 from collections import Counter
 from typing import List, Dict
-from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer
 from utils import read_json, write_json, get_keywords, get_alphabet_choice, remove_boxed, last_boxed_only_string
 from agent import *
+from local_backend import load_model_and_tokenizer, generate_texts
 import logging
 import pandas as pd
 from ast import literal_eval
@@ -52,6 +52,20 @@ def parse_args():
 def get_model_responses(agent_name, prompts, num_gpu):
     model_id = agent_map.get(agent_name)   
     print(f"getting responses from this model: {agent_name}")
+    if os.environ.get("SKILL_MOE_BACKEND", "vllm") == "transformers" or LLM is None:
+        model, tokenizer = load_model_and_tokenizer(model_id)
+        try:
+            return generate_texts(model, tokenizer, prompts, agent_name, temperature=0.7)
+        finally:
+            del model
+            del tokenizer
+            import gc
+            gc.collect()
+            if torch.backends.mps.is_available():
+                torch.mps.empty_cache()
+            elif torch.cuda.is_available():
+                torch.cuda.empty_cache()
+
     if agent_name in ["Phi", "Mistral"]:
         llm = LLM(model = model_id,
                   download_dir = "/nas-ssd2/cychen/saved_models",
