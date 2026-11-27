@@ -1,3 +1,14 @@
+# INFO 762: Skill-MoE aggregation and calibration
+
+The active course-project plan is [Step 01: Scope and Evaluation](project-context/protocol-step01.md).
+It follows the [professor's feedback](project-context/professor-feedback.md),
+including router-confidence comparisons. See [project context](project-context/README.md)
+for the status of earlier plans and [analysis documentation](analysis/README.md)
+for the existing preparation tools. The Qwen3-only smoke runs are development
+evidence; the restored router-based primary experiment has not been implemented.
+
+The original upstream project documentation follows.
+
 # [Skill-Based Mixture-of-Experts: Adaptive Routing for Heterogeneous Reasoning via Inferred Skills](https://arxiv.org/abs/2503.05641)
 
 [![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/2503.05641)

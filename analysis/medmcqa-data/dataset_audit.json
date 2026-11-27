@@ -1,0 +1,46 @@
+{
+  "status": "provisional; exact-normalized duplicate grouping only",
+  "seed": 0,
+  "split_targets": {
+    "fit": 0.6,
+    "validation": 0.2,
+    "held_out": 0.2
+  },
+  "sources": [
+    {
+      "path": "test_data/MedMCQA_test.json",
+      "sha256": "1c7a0851b37f37c60bbb70af289bf95b52158c74a4bb2d81750085c211481807"
+    },
+    {
+      "path": "test_data/MedMCQA_train.json",
+      "sha256": "dcc23c9d819d0dfe8d92dc7f146e201c43a102afa51e98c3acabd31c5d6b61b0"
+    },
+    {
+      "path": "smoke-runs/medmcqa-step03/run/fixture_medmcqa_smoke.csv",
+      "sha256": "8da877e50aa61292b267f0fe5a3289d6692de64880e325ec42220f8d4aa6bba1"
+    }
+  ],
+  "test_rows": 4183,
+  "train_rows": 504,
+  "unique_test_questions": 4183,
+  "duplicate_groups": 0,
+  "duplicate_extra_rows": 0,
+  "train_overlap_groups": 0,
+  "split_group_counts": {
+    "fit": 2507,
+    "held_out": 840,
+    "validation": 831,
+    "development_smoke": 5
+  },
+  "split_row_counts": {
+    "fit": 2507,
+    "held_out": 840,
+    "validation": 831,
+    "development_smoke": 5
+  },
+  "limitations": [
+    "Local hashes do not establish external benchmark provenance.",
+    "Near-duplicates and model training contamination are not assessed.",
+    "Split approval and primary-run model configuration remain pending."
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "stage_metrics": {
+    "expert": {
+      "prompt_tokens": null,
+      "output_tokens": null,
+      "generation_seconds": null,
+      "finish_reasons": {
+        "unknown": 15
+      }
+    },
+    "aggregator": {
+      "prompt_tokens": null,
+      "output_tokens": null,
+      "generation_seconds": null,
+      "finish_reasons": {
+        "unknown": 5
+      }
+    }
+  },
+  "answer_quality_pass": false,
+  "questions": 5,
+  "paired_questions": 5,
+  "paired_coverage": 1.0,
+  "expert_parse_status": {
+    "unfinished_thinking": 10,
+    "valid": 5
+  },
+  "aggregator_parse_status": {
+    "valid": 4,
+    "unfinished_thinking": 1
+  },
+  "strict_vote_accuracy": 0.4,
+  "strict_aggregator_accuracy": 0.8,
+  "helpful": 2,
+  "harmful": 0,
+  "neutral": 3,
+  "vote_ties": 0,
+  "all_expert_answers_invalid": 3,
+  "note": "Strict parser; invalid outputs score incorrect. Missing outputs excluded from paired metrics. Smoke data is development-only.",
+  "analysis_code_sha256": "a3203edf3cdcf2d6cec030cb307495833548bba4d39aefebe1c8bc0fe0e46fad",
+  "split_manifest_sha256": "082fa4d5e7d6004f7289059a7d50642e7e193b87fc1df839314490fe037df472",
+  "artifact_hashes": {
+    "agent.py": "fb73e59942b5169a4b5e3b86d7a04c02912817633051cb96e53329500d6969e8",
+    "aggregate.py": "ebd2d0bd86b0de4c957ec5838e8ba9474350cc19beb482934935860079c16e3e",
+    "expert_inference.py": "d39962b61a8d00d149ca900ad58fc436ccd985d0c6d9a5e652fd31887f7b73da",
+    "local_backend.py": "f700fa4da68ae04bcecf3fea46fb6b7880ddd8ffa64322beb7167b6c8935c05c",
+    "skills/MedMCQA/fixed_Qwen_round1_seed0_80.0.json": "59969c9eb8ed8b7470d720ba10ae4d8656f81a388b7f942baef8f672963e0f07",
+    "skills/MedMCQA/round0_seed0.csv": "6f1e1741d278342dcc01b55977588e6370917e8365040ee5334713983854574b",
+    "skills/MedMCQA/test_samples_with_keywords_and_solvers_seed0.csv": "d21bd233513937c50c78c1e72e789c9eca653226875e686e25d242aa62fe90be",
+    "slurm.log": "3c64632fc29177d8920dbc50a05e993719515ff272a663f1ecde5b6c8535001d",
+    "smoke-test.log": "b288be27a0e5f633e170d6954f28adfe1a78cf1243ca1c203ea7aace32da4f58",
+    "test_data/MedMCQA_test.json": "f30ba14aa066772624b53bb25f6f33e4b6825a20257619ed9848397d0edeaad4",
+    "utils.py": "52515f5db1614b68627328b439df11336dd2bf79bcc23841275fe7ab579ec3c1"
+  }
+}
