@@ -8,6 +8,10 @@ from prepare_medmcqa import digest, question_id
 
 def validate(root):
     config = json.loads((root / "analysis/primary-study.json").read_text())
+    if config["status"].startswith("superseded"):
+        return {"status": "superseded_configuration", "launch_ready": False,
+                "active_protocol": config["superseded_by"],
+                "execution_status": "Historical same-model plan is not approval for the restored router study."}
     data = config["dataset"]
     checks = [(data["test_path"], data["test_sha256"]),
               (data["train_path"], data["train_sha256"]),

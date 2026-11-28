@@ -49,11 +49,26 @@ def vote(answers):
     return next(a for a in valid if a in tied), len(tied) > 1
 
 
-def features(answers, solvers):
+def validate_router(distribution, solvers):
+    if distribution is None:
+        return None
+    if not isinstance(distribution, dict) or not distribution:
+        raise ValueError("Router probabilities must be a nonempty model-to-probability mapping")
+    if not all(isinstance(name, str) and isinstance(p, (int, float)) and not isinstance(p, bool)
+               and math.isfinite(p) and 0 <= p <= 1 for name, p in distribution.items()):
+        raise ValueError("Invalid router probabilities")
+    if not math.isclose(sum(distribution.values()), 1, rel_tol=0, abs_tol=1e-6):
+        raise ValueError("Router probabilities do not sum to one")
+    if any(distribution.get(solver, 0) <= 0 for solver in solvers):
+        raise ValueError("Selected solver is missing or has zero routing probability")
+    return max(distribution.values())
+
+
+def features(answers, solvers, router_probabilities=None):
     valid = [a for a in answers if a is not None]
     counts = Counter(valid)
     return {
-        "router_confidence": None,
+        "router_confidence": validate_router(router_probabilities, solvers),
         "modal_disagreement": 1 - max(counts.values()) / len(valid) if valid else None,
         "normalized_entropy": -sum((n / len(valid)) * math.log(n / len(valid))
                                     for n in counts.values()) / math.log(4) if valid else None,
@@ -156,6 +171,12 @@ def paired_records(run_dir, split_path=None):
         solvers = ast.literal_eval(row["solvers"])
         if not isinstance(solvers, list) or not solvers or not all(isinstance(s, str) for s in solvers):
             raise ValueError("Invalid solver sequence")
+        router_probabilities = json.loads(row["router_probabilities"]) if row.get("router_probabilities") else None
+        router_confidence = validate_router(router_probabilities, solvers)
+        if row.get("router_confidence") and (
+            router_confidence is None or not math.isclose(float(row["router_confidence"]), router_confidence, abs_tol=1e-6)
+        ):
+            raise ValueError("Recorded router confidence does not match the probability vector")
         # Upstream assigns first repeated draw to answer_N, then counts down.
         remaining = Counter(solvers)
         experts = []
@@ -177,11 +198,13 @@ def paired_records(run_dir, split_path=None):
         a_correct = agg["answer"] == row["gold_answer"]
         qid = question_id(row["question"])
         records.append({
-            "schema_version": "1.0", "question_id": qid, "source_index": index,
+            "schema_version": "1.1", "question_id": qid, "source_index": index,
             "split": splits.get(qid, "unassigned"), "run_id": run.name,
             "question": row["question"], "gold_answer": row["gold_answer"],
             "experts": experts, "aggregator": agg,
-            "features": features(answers, solvers),
+            "router": {"probabilities": router_probabilities, "confidence": router_confidence,
+                       "fallback": row.get("router_fallback") or None},
+            "features": features(answers, solvers, router_probabilities),
             "vote": {"answer": majority, "tied": tied, "distinct_expert_answer": unique_vote,
                      "distinct_expert_tied": unique_tie, "tie_rule": "earliest_draw_among_tied_valid_answers"},
             "paired_eligible": complete,

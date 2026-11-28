@@ -1,6 +1,7 @@
 {
   "protocol_version": "1.0",
-  "status": "finalized_by_user; collection_not_started",
+  "status": "superseded_by_router_protocol; not_launchable",
+  "superseded_by": "project-context/protocol-step01.md",
   "study": "MedMCQA same-model sampled-response disagreement and selective aggregation",
   "scope": "Skill-MoE-derived inference workflow; no heterogeneous recruitment or router-confidence comparisons",
   "seed": 0,

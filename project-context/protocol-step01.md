@@ -54,6 +54,14 @@ loss relative to always aggregating.
 
 ## Initial scope
 
+Execution update: the approved replacement pilot (`41599259`) supports using
+Qwen3-8B, BioDecision-v2-4B and Qwen3-Coder-30B-A3B-Instruct-AWQ as the three-model
+pool, with Qwen3-8B aggregation. Profile all 504 local training rows before
+primary evaluation. This is a Skill-MoE adaptation; see
+`../experiments/runs/pilot-41599259/RESULT.md` for the pinned-run evidence and
+remaining format failure. The original open decisions below record the state
+at protocol reconciliation; this update resolves the pool and profile sample.
+
 The proposed first benchmark is **MedMCQA**, because it is a biomedical,
 multiple-choice benchmark and the local upstream copy is available. The
 initial unit of analysis is one question. The experiment will use the existing

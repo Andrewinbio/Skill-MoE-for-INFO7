@@ -1,4 +1,5 @@
 import os
+import json
 from utils import *
 from agent import agent_map
 from collections import Counter
@@ -75,7 +76,7 @@ def create_skill_rankings(all_agent_profiles, available_keywords):
     
     return skill_rankings
 
-def recruit_agents(models_scores, normalized_agent_strength, k=3):
+def recruit_agents(models_scores, normalized_agent_strength, k=3, return_probabilities=False):
     model_dict = dict(models_scores)
     positive_models = {model: score for model, score in model_dict.items() if score > 0}
     
@@ -91,7 +92,12 @@ def recruit_agents(models_scores, normalized_agent_strength, k=3):
     total_weight = sum(weights)
     probabilities = [w/total_weight for w in weights]
     
-    return random.choices(models, weights=probabilities, k=k)
+    selected = random.choices(models, weights=probabilities, k=k)
+    if return_probabilities:
+        distribution = {model: 0.0 for model in normalized_agent_strength}
+        distribution.update(dict(zip(models, probabilities)))
+        return selected, distribution
+    return selected
 
 def get_model_replacement(model_to_replace: str, model_counts: Counter, threshold: float = 0.05) -> str:
     
@@ -134,6 +140,8 @@ def parse_args():
         type=int,
         default=0
     )
+    parser.add_argument('--log-router', action='store_true',
+                        help='Save actual pre-draw recruitment probabilities and confidence in the solver CSV.')
     return parser.parse_args()
     
 if __name__ == "__main__":
@@ -198,9 +206,20 @@ if __name__ == "__main__":
             print("Warning: empty keywords")
             test_samples[i]['solvers'].extend(random.choices(list(all_agent_profiles.keys()), k=3))
             test_samples[i]['aggregator'] = random.choices(list(all_agent_profiles.keys()), k=1)[0]
+            if args.log_router:
+                distribution = {name: 1.0 / len(all_agent_profiles) for name in all_agent_profiles}
+                test_samples[i]['router_fallback'] = 'empty_keywords_uniform'
         else:
             model_rank = sorted(model_rank.items(), key=lambda x: x[1], reverse=True)
-            test_samples[i]['solvers'].extend(recruit_agents(model_rank, normalized_agent_strength, k=3))
+            if args.log_router:
+                selected, distribution = recruit_agents(model_rank, normalized_agent_strength, k=3, return_probabilities=True)
+                test_samples[i]['solvers'].extend(selected)
+                test_samples[i]['router_fallback'] = None
+            else:
+                test_samples[i]['solvers'].extend(recruit_agents(model_rank, normalized_agent_strength, k=3))
+        if args.log_router:
+            test_samples[i]['router_probabilities'] = json.dumps(distribution, sort_keys=True)
+            test_samples[i]['router_confidence'] = max(distribution.values())
 
     test_samples_df = pd.DataFrame(test_samples)
     test_samples_df.to_csv(f"./skills/{args.task}/test_samples_with_keywords_and_solvers_seed{args.seed}.csv", index=False)

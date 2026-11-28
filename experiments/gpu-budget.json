@@ -1,0 +1,64 @@
+{
+  "cap_gpu_hours": 8,
+  "scope": "Restored three-model study: all new pilot, profiling, routing and evaluation GPU allocations, including failed attempts and retries",
+  "historical_smoke_excluded": [
+    41597435,
+    41597473
+  ],
+  "allocations": [
+    {
+      "job_id": 41597961,
+      "purpose": "Initial biomedical-pool pilot",
+      "gpus": 1,
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "slurm_parent_elapsed_seconds": 1063,
+      "charged_elapsed_seconds": 1068,
+      "charging_note": "Conservatively includes extern cleanup (17m48s); overlapping job steps are not summed."
+    },
+    {
+      "job_id": 41599259,
+      "purpose": "Approved lower-memory replacement and throughput pilot",
+      "gpus": 1,
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "slurm_parent_elapsed_seconds": 640,
+      "charged_elapsed_seconds": 643,
+      "charging_note": "Conservatively includes extern cleanup; overlapping steps are not summed."
+    },
+    {
+      "job_id": 41603728,
+      "purpose": "Full 504-row checkpoint-matched training profiles",
+      "gpus": 1,
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "slurm_parent_elapsed_seconds": 750,
+      "charged_elapsed_seconds": 752
+    },
+    {
+      "job_id": 41603767,
+      "purpose": "Recruited development smoke and resume validation",
+      "gpus": 1,
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "slurm_parent_elapsed_seconds": 570,
+      "charged_elapsed_seconds": 570
+    },
+    {
+      "job_id": 41603829,
+      "purpose": "Primary paired-output collection on the frozen 4,178-question manifest",
+      "gpus": 1,
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "slurm_parent_elapsed_seconds": 2688,
+      "charged_elapsed_seconds": 2689,
+      "charging_note": "Includes extern cleanup; overlapping job steps are not summed."
+    }
+  ],
+  "charged_gpu_seconds": 5722,
+  "remaining_gpu_seconds": 23078,
+  "reserved_gpu_seconds": 0,
+  "unreserved_remaining_gpu_seconds": 23078,
+  "full_profiling_started": true,
+  "primary_evaluation_started": true
+}

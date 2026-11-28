@@ -2,16 +2,23 @@
 
 Standard-library tooling; run commands from the repository root.
 
-## Finalized primary configuration
+## Active router study and historical configuration
 
-`primary-study.json` is the owner-approved experiment freeze. Validate it with
-`python3 analysis/validate_primary.py`. The active study uses three sampled
-Qwen3-8B responses and same-model aggregation, all 4,178 non-smoke questions,
-the existing 2,507/831/840 split, seed 0, an 8 allocated GPU-hour cap, and a
-2-percentage-point empirical accuracy-loss tolerance. Router comparisons are
-out of scope. The finalized protocol is `project-context/primary-protocol-final.md`
-in the parent project directory. Primary collection/evaluation is not launched
-by the validator; the five-question smoke runner is not a primary collector.
+`project-context/protocol-step01.md` is the active protocol: router-only,
+disagreement-only and combined models for both aggregation failure and helpful
+aggregation. `primary-study.json` is the superseded same-model configuration,
+not launch approval. See `experiments/README.md` for the ongoing multi-model
+feasibility pilots and `experiments/gpu-budget.json` for the eight-hour ledger.
+The existing 2,507/831/840 split, seed 0, development exclusions and 2-percentage-
+point accuracy-loss tolerance remain applicable. Pool feasibility is still being
+tested before full profiling and primary collection.
+
+`recruit_agents.py --log-router` now records the actual normalized sampling
+distribution, maximum probability and fallback flag in its solver CSV. The flag
+is opt-in and preserves the draw sequence and RNG state. Annotation and matched
+profile inputs must exist before this command can run. The analysis consumes
+these CSV fields, validates the probability vector, and stores it in each record.
+Manual smoke fixtures continue to have null router information.
 
 ```bash
 python3 -m unittest discover -s analysis -p 'test_*.py'
@@ -41,7 +48,7 @@ to 0. The manifest stores source-row indices and exclusion/exposure flags.
 Dataset files and exposure CSV are hashed in the audit. External provenance,
 near-duplicates, and checkpoint training contamination remain unverified.
 
-## Question-record schema (version 1.0)
+## Question-record schema (version 1.1)
 
 `question-records.jsonl` contains one record per CSV row:
 
@@ -51,6 +58,10 @@ near-duplicates, and checkpoint training contamination remain unverified.
   raw output, normalized answer, parse status, model, prompt/output token counts,
   finish/stop reason, batch generation duration, token cap, and thinking mode.
 - `aggregator`: the same response fields.
+- `router`: full candidate probabilities, maximum probability, and fallback
+  provenance when logged. Probabilities must sum to one and each selected
+  expert must have positive probability. Confidence is computed over the full
+  distribution, including experts not selected in the three draws.
 - `features`: only pre-aggregation information: modal disagreement, normalized
   entropy, selected/unique expert counts, valid/invalid answer counts, and
   nullable router confidence. Manual fixtures have no router probabilities;
@@ -99,8 +110,37 @@ This implements preparation and smoke diagnostics, not calibrated policy fitting
 Use only `features` as predictors and honor fit/validation/held-out boundaries
 after split approval. Five development questions and repeated draws from one
 model cannot establish calibration or heterogeneous-expert performance.
-The approved primary settings are now frozen in `primary-study.json`. A
-resumable collector, allocation-budget ledger and fit/validation/replay evaluator
-still need implementation before primary execution. The dataset audit's
+The historical same-model settings in `primary-study.json` are superseded. A
+resumable primary collector and fit/validation/replay evaluator still need
+implementation; the multi-model feasibility budget is tracked separately.
+The dataset audit's
 "provisional" wording records its creation state; the exact manifest hash is
 now approved without rewriting that historical artifact.
+
+## Routed primary collection scoring (Steps 06–07)
+
+Use the structurally validated `evaluate-records.json` from Cheaha job
+`41603829`. The original run artifacts stay in
+`~/skillmoe-routed-v1/experiments/runs/routed-primary/` on Cheaha.
+From the repository root, with the Mac connected to Cheaha:
+
+```sh
+mkdir -p experiments/runs/routed-primary
+scp cheaha:skillmoe-routed-v1/experiments/runs/routed-primary/evaluate-records.json experiments/runs/routed-primary/
+python3 analysis/score_routed.py \
+  experiments/runs/routed-primary/evaluate-records.json \
+  experiments/runs/routed-primary/fit-validation
+```
+
+The output directory must be new. `features.csv` contains identifiers,
+pre-aggregation features, and vote diagnostics. `outcomes.csv` contains
+paired eligibility and outcome labels, keyed by question ID, source index and
+split. `summary.json` records source hashes, coverage, repeats, ties, and
+the paired correctness table. A generated but invalid response scores
+incorrect and contributes no expert vote. An absent response, recorded as
+`missing`, excludes the row from paired outcome analysis. Blank feature
+values indicate that no valid expert answer was available. The distinct-expert
+analysis uses each solver's first draw, even when that draw is invalid.
+
+The scorer processes only fit and validation records. Freeze the policy
+using validation before enabling held-out scoring in a separate step.
